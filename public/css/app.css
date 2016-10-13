@@ -59269,5 +59269,15 @@ html.ios body {
   font-weight: bold;
   text-transform: uppercase;
 }
+.forum-description {
+  padding-left: 0 !important;
+}
+.main.container {
+  min-width: 360px !important;
+}
+.stats.grid,
+.stats.grid * {
+  padding-left: 0 !important;
+}
 
 /*# sourceMappingURL=app.css.map */

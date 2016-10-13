@@ -12,5 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+});
+
+Route::get('/forum/{url_helper}', function ($url_helper=null) {
+    if ($url_helper == null)
+       return redirect("/");
+
+    return view('forum');
 });
