@@ -13,32 +13,32 @@
 </head>
 <body>
 <div class="ui main container">
-    <div class="ui attached stackable menu">
+    <div class="ui inverted attached stackable menu">
         <div class="item">
             <img src="http://boshkov.tech/icons/favicon.png">
         </div>
-        <div class="header item">
+        <div class="active red item">
             Home
         </div>
         <a class="item">
             Members
         </a>
 
-        <div class="ui stackable right menu">
+        <div class="ui stackable right inverted menu">
             <div class="item">
-                <div class="ui transparent icon input">
+                <div class="ui transparent icon inverted input">
                     <input type="text" placeholder="Username">
                     <i class="user icon"></i>
                 </div>
             </div>
             <div class="item">
-                <div class="ui transparent icon input">
+                <div class="ui transparent icon inverted input">
                     <input type="password" placeholder="Password">
                     <i class="lock icon"></i>
                 </div>
             </div>
             <a class="ui item">
-                <div class="ui button">Sign in</div>
+                <div class="ui red button">Sign in</div>
             </a>
         </div>
 

@@ -59263,7 +59263,7 @@ html.ios body {
 .category-title {
   color: #FFF;
 }
-.category-title a,
+.category-title *,
 .category-title a:hover {
   color: #FFF !important;
   font-weight: bold;

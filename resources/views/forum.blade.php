@@ -41,7 +41,7 @@
                                         <div class="left floated" style="margin-right: 10px">
                                             <i class="huge comments outline icon"></i>
                                         </div>
-                                        <div class="header"><a href="">@{{ thread.title }}</a></div>
+                                        <div class="header"><a href="/thread/@{{ thread.url_helper }}">@{{ thread.title }}</a></div>
                                         <div class="meta">
                                             <a href="#">@{{ thread.posted_by.username }}</a> <span
                                                     am-time-ago="thread.posted_on"></span></span></p>
@@ -69,6 +69,9 @@
 
                         </div>
                     </div>
+                </div>
+                <div class="ui red segment">
+                    Showing threads @{{ cont.forum.pagination_start+1 }} to @{{ cont.forum.pagination_start + cont.forum.threads.length }} from a total of @{{ cont.forum.num_threads }}
                 </div>
             </div>
 
