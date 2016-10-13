@@ -93,6 +93,9 @@ require('./bootstrap');
             ]
         }];
 
+    app.controller("ForumController", function () {
+        this.forum = forumData;
+    });
 
     var forumData = {
         id: 1,

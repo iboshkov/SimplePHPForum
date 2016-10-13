@@ -59263,11 +59263,13 @@ html.ios body {
 .category-title {
   color: #FFF;
 }
+.category-title a {
+  text-transform: uppercase;
+}
 .category-title *,
 .category-title a:hover {
   color: #FFF !important;
   font-weight: bold;
-  text-transform: uppercase;
 }
 .forum-description {
   padding-left: 0 !important;
