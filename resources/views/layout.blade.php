@@ -55,8 +55,15 @@
     </div>
 </div>
 <div class="ui hidden divider"></div>
+<div class="ui container">
+    <div style="min-height: 400px!important;"  ng-show="::false" class="ui loading segment">
+
+    </div>
+</div>
+
 @yield("content")
-<div class="ui hidden divider"></div>
+
+<div class="ui hidden clearing divider"></div>
 <footer>
     Copyright &copy; {{ 2016 }} Ilija Boshkov.
 </footer>

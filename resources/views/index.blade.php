@@ -1,7 +1,7 @@
 @extends("layout")
 
 @section("content")
-    <div class="ui main container">
+    <div ng-cloak class="ui main container">
 
         <div ng-cloak ng-controller="IndexController as cont" class="">
             <div ng-repeat="category in cont.forums" class="ui segments">

@@ -1,7 +1,7 @@
 @extends("layout")
 
 @section("content")
-    <div class="ui main container">
+    <div ng-cloak class="ui main container">
         <div ng-controller="ForumController as cont" class="">
             <h2 class="ui header">
                 @{{ cont.forum.title  }}

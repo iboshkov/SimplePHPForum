@@ -1,7 +1,7 @@
 @extends("layout")
 
 @section("content")
-    <div class="ui main container">
+    <div ng-cloak class="ui main container">
         <div ng-controller="ThreadController as cont" class="">
             <h2 class="ui header">
                 @{{ cont.thread.title  }}
@@ -110,6 +110,14 @@
                         </div>
                     </div>
                 </div>
+                <form class="ui reply form">
+                    <div class="field">
+                        <textarea></textarea>
+                    </div>
+                    <div class="ui red right floated labeled submit icon button">
+                        <i class="icon edit"></i> Add Reply
+                    </div>
+                </form>
 
             </div>
 @endsection
