@@ -16,12 +16,23 @@ require('./bootstrap');
     });
 
     app.controller("ForumController", function ($scope, $http, $log) {
-        $scope.init = function(slug) {
-            $http.get("/api/forum/" + slug)
-                .then(function(response) {
-                    $log.info(response.data["1"]);
+        $scope.current_page = 0;
+        $scope.init = function(slug, page) {
+            $scope.slug = slug;
+            $scope.loadPage(slug, page);
+        };
 
-                    $scope.forum = response.data;
+        $scope.loadPage = function(slug, page_num) {
+            $log.info("Loading page " + slug  + "|" + page_num);
+            if (slug == null)
+                slug = $scope.slug;
+            $http.get("/api/forum/" + slug + "?page=" + page_num)
+                .then(function(response) {
+                    $scope.data = response.data;
+                    $scope.current_page = page_num;
+                    $rootScope.rootPage = 123;
+                }, function(response) {
+                    $log.info("Error ?");
                 });
         };
     });
@@ -36,6 +47,18 @@ require('./bootstrap');
             return input;
         };
     });
+
+    app.directive('pagination', function() {
+        return {
+            restrict: "E",
+            scope: {
+                pageData: '=',
+                callback: '&',
+            },
+            templateUrl: "/angular/pagination",
+        };
+    });
+
     app.controller("ThreadController", function ($scope, $http, $log, $rootScope) {
         $scope.current_page = 0;
         $scope.init = function(slug, page) {
@@ -44,7 +67,9 @@ require('./bootstrap');
         };
 
         $scope.loadPage = function(slug, page_num) {
-            $log.info("Loading page " + page_num);
+            $log.info("Loading page " + slug  + "|" + page_num);
+            if (slug == null)
+                slug = $scope.slug;
             $http.get("/api/thread/" + slug + "?page=" + page_num)
                 .then(function(response) {
                     $scope.thread = response.data;

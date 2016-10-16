@@ -15,11 +15,19 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/forum/{slug}', function ($slug=null) {
+
+Route::get('/angular/{slug}', function ($slug=null) {
     if ($slug == null)
         return redirect("/");
 
-    return view('forum', ['slug' => $slug]);
+    return view("angular/".$slug);
+});
+
+Route::get('/forum/{slug}/{page?}', function ($slug=null, $page=1) {
+    if ($slug == null)
+        return redirect("/");
+
+    return view('forum', ['slug' => $slug, 'page' => $page]);
 });
 
 Route::get('/thread/{slug}/{page?}', function ($slug=null, $page=1) {

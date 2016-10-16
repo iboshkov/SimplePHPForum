@@ -24,8 +24,12 @@ Route::get('/forums', function (Request $request) {
 });
 
 Route::get('/forum/{slug}', function (Request $request, $slug ) {
-    $result = App\Forum::with("threads")->get()->where("slug", $slug)->first();
-
+    $forum = App\Forum::where("slug", $slug)->first();
+    $threads = $forum->threads()->with("main_post")->paginate(5);
+    $result = array(
+        "forum" => $forum,
+        "threads" => $threads,
+    );
     return Response::json($result, $status=200, $headers=[], $options=JSON_PRETTY_PRINT);
 });
 

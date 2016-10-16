@@ -3,37 +3,19 @@
 @section("content")
 
     <div ng-cloak class="ui main container">
-        <div ng-controller="ForumController" ng-init="init('{{$slug}}')" class="">
+        <div ng-controller="ForumController" ng-init="init('{{$slug}}', {{$page}})" class="">
             <h2 class="ui header">
-                @{{ forum.title  }}
-                <div class="sub header">@{{ forum.description }}</div>
+                @{{ data.forum.title  }}
+                <div class="sub header">@{{ data.forum.description }}</div>
             </h2>
 
-            <div class="ui mini pagination pointing menu">
-                <div class="header item">Page 1 of 11</div>
-                <a class="active item">
-                    1
-                </a>
-                <div class="disabled item">
-                    ...
-                </div>
-                <a class="item">
-                    10
-                </a>
-                <a class="item">
-                    11
-                </a>
-                <a class="item">
-                    Next
-                </a>
-            </div>
-
+            <pagination page-data="data.threads" callback="loadPage(slug, page)"></pagination>
 
             <div class="ui segments">
                 <div class="ui inverted segment category-title">
                     Threads
                 </div>
-                <div ng-repeat="thread in forum.threads" class="ui segment">
+                <div ng-repeat="thread in data.threads.data" class="ui segment">
                     <div class="ui divided items">
                         <div class="item">
                             <div class="ui container equal width grid ">
@@ -74,7 +56,13 @@
                 <div class="ui red segment">
                     Showing threads @{{ cont.forum.pagination_start+1 }} to @{{ cont.forum.pagination_start + cont.forum.threads.length }} from a total of @{{ cont.forum.num_threads }}
                 </div>
+
+
+
             </div>
+            <div class="ui hidden horizontal divider"></div>
+            <pagination page-data="data.threads" callback="loadPage(slug, page)"></pagination>
+            <div class="ui hidden horizontal divider"></div>
 
         </div>
 @endsection

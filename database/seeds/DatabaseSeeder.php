@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
-        for ($i = 0; $i < 20; $i++){
+        for ($i = 0; $i < 200; $i++){
             $post_id  = $this->createPost("Test post " . $i, self::POST_CONTENT, $thread_id);
         }
     }
@@ -75,8 +75,9 @@ class DatabaseSeeder extends Seeder
 
         $this->createForum("Community Support", "Support from the community");
         $id = $this->createForum("Installation, Upgrade, and Import Support", "", 1);
-        $this->createThread("Test thread", "Llelll", 2);
-        $this->createThread("Test thread 2", "Llelll", 2);
+        for ($i = 0; $i < 20; $i++){
+            $this->createThread("Test thread $i", "Llelll", 2);
+        }
         $this->createForum("Troubleshooting and Problems", "Lorem ipsu ...", 1);
         $this->createForum("Category - No Description", "");
         $this->createForum("Forum 1", "Lorem ipsu ...", 4);
