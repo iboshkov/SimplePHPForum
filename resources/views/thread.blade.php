@@ -1,19 +1,18 @@
 @extends("layout")
 
 @section("content")
-    <div ng-cloak class="ui main container">
-        <div ng-controller="ThreadController" ng-init="init('{{$slug}}', {{$page}})" class="">
+    <div  class="ui main container">
+        <div ng-cloak ng-controller="ThreadController" ng-init="init('{{$slug}}', {{$page}})" class="">
             <h2 class="ui header">
                 @{{ thread.thread.title  }}
-                <div class="sub header">Discussion by <b>@{{ thread.posts[0].user.name }}</b></div>
+                <div class="sub header">Discussion by <b>@{{ thread.main_post.user.username }}</b></div>
             </h2>
 
             <div class="ui mini pagination pointing menu">
                 <div class="header item">Page @{{ thread.posts.current_page }} of @{{ thread.posts.total / thread.posts.per_page }}</div>
 
-
                 <div ng-repeat="n in [] | range:thread.pages">
-                    <a ng-click="loadPage($index)" ng-class="($index+1) == thread.posts.current_page ? 'active item' : 'item'">
+                    <a ng-class="{active: thread.posts.current_page == $index+1}" class="item" href="#" ng-click="loadPage('{{$slug}}', $index+1)">
                         @{{$index+1}}
                     </a>
                 </div>
@@ -28,10 +27,10 @@
                         <div class="equal width row ">
                             <div class="column">
                                 <div class="ui basic segment">
-                                    <img class="ui tiny left floated image" ng-src="@{{ post.posted_by.profile_img }}"/>
+                                    <img class="ui tiny left floated image" ng-src="@{{ post.user.profile_img }}"/>
 
                                     <div class="content">
-                                        <a href="#">@{{ post.user.name }}</a><br/>
+                                        <a href="#">@{{ post.user.username }}</a><br/>
                                         <span class=""><b>Member</b></span><br/>
                                         <span am-time-ago="post.posted_on"></span><br/>
                                         <span></span><br/>

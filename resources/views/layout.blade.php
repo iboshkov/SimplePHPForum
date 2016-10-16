@@ -50,7 +50,7 @@
         <div class="ui breadcrumb">
             <a class="section">Home</a>
             <div class="divider"> /</div>
-            <a class="section">Forum Index</a>
+            <a class="section">@{{rootPage}}</a>
         </div>
     </div>
 </div>

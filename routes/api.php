@@ -32,10 +32,9 @@ Route::get('/forum/{slug}', function (Request $request, $slug ) {
 Route::get('/thread/{slug}', function (Request $request, $slug ) {
 
     $thread = App\Thread::where("slug", $slug)->first();
-    $limit = 150;
     $posts = $thread->posts()->with("user")->paginate(10);
 
-    $result = array("thread" => $thread, "posts" => $posts, "pages" => $posts->total() / $posts->perPage());
+    $result = array("thread" => $thread, "main_post" => $thread->posts()->with("user")->first(), "posts" => $posts, "pages" => $posts->total() / $posts->perPage());
     //$result = App\Post::paginate(5);
     return Response::json($result, $status=200, $headers=[], $options=JSON_PRETTY_PRINT);
 });

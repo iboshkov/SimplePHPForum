@@ -36,19 +36,20 @@ require('./bootstrap');
             return input;
         };
     });
-    app.controller("ThreadController", function ($scope, $http, $log) {
-        $log.info("Thread");
-
-
-
+    app.controller("ThreadController", function ($scope, $http, $log, $rootScope) {
+        $scope.current_page = 0;
         $scope.init = function(slug, page) {
+            $scope.slug = slug;
             $scope.loadPage(slug, page);
         };
+
         $scope.loadPage = function(slug, page_num) {
             $log.info("Loading page " + page_num);
             $http.get("/api/thread/" + slug + "?page=" + page_num)
                 .then(function(response) {
                     $scope.thread = response.data;
+                    $scope.current_page = page_num;
+                    $rootScope.rootPage = 123;
                 }, function(response) {
                     $log.info("Error ?");
                 });

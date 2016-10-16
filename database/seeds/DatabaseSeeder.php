@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'updated_at' => new DateTime(),
         ]);
         for ($i = 0; $i < 20; $i++){
-            $post_id  = $this->createPost("Test thread", self::POST_CONTENT, $thread_id);
+            $post_id  = $this->createPost("Test post " . $i, self::POST_CONTENT, $thread_id);
         }
     }
 
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'content' => $description,
             'slug' => App\Utils::generateURLHelper($name),
             'parent_id' => $thread,
-            'posted_by' => 1,
+            'posted_by' => random_int(1, 3),
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
@@ -59,9 +59,17 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->insert([
             'username' => 'testuser2',
-            'profile_img' => 'https://scontent-vie1-1.xx.fbcdn.net/t31.0-8/14206193_602213643273232_3911805378455266362_o.jpg',
+            'profile_img' => 'https://scontent-vie1-1.xx.fbcdn.net/v/t1.0-9/11752549_449458791892513_1188570634453230582_n.jpg?oh=dd09ab43fed508c7d94de1842f5d04dc&oe=58A1BAC9',
             'name' => 'Test Account',
             'email' => 'test1@example.com',
+            'password' => bcrypt('secret'),
+        ]);
+
+        DB::table('users')->insert([
+            'username' => 'testuse3',
+            'profile_img' => 'https://scontent-vie1-1.xx.fbcdn.net/t31.0-8/14206193_602213643273232_3911805378455266362_o.jpg',
+            'name' => 'Test Account',
+            'email' => 'test2@example.com',
             'password' => bcrypt('secret'),
         ]);
 
