@@ -15,16 +15,16 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/forum/{url_helper}', function ($url_helper=null) {
-    if ($url_helper == null)
+Route::get('/forum/{slug}', function ($slug=null) {
+    if ($slug == null)
         return redirect("/");
 
-    return view('forum');
+    return view('forum', ['slug' => $slug]);
 });
 
-Route::get('/thread/{url_helper}', function ($url_helper=null) {
-    if ($url_helper == null)
+Route::get('/thread/{slug}/{page?}', function ($slug=null, $page=1) {
+    if ($slug == null)
         return redirect("/");
 
-    return view('thread');
+    return view('thread', ['slug' => $slug, 'page' => $page]);
 });

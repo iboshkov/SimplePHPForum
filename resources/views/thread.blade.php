@@ -2,35 +2,28 @@
 
 @section("content")
     <div ng-cloak class="ui main container">
-        <div ng-controller="ThreadController as cont" class="">
+        <div ng-controller="ThreadController" ng-init="init('{{$slug}}', {{$page}})" class="">
             <h2 class="ui header">
-                @{{ cont.thread.title  }}
-                <div class="sub header">Discussion by @{{ cont.thread.posted_by.username }}</div>
+                @{{ thread.thread.title  }}
+                <div class="sub header">Discussion by <b>@{{ thread.posts[0].user.name }}</b></div>
             </h2>
 
             <div class="ui mini pagination pointing menu">
-                <div class="header item">Page 1 of 11</div>
-                <a class="active item">
-                    1
-                </a>
-                <div class="disabled item">
-                    ...
+                <div class="header item">Page @{{ thread.posts.current_page }} of @{{ thread.posts.total / thread.posts.per_page }}</div>
+
+
+                <div ng-repeat="n in [] | range:thread.pages">
+                    <a ng-click="loadPage($index)" ng-class="($index+1) == thread.posts.current_page ? 'active item' : 'item'">
+                        @{{$index+1}}
+                    </a>
                 </div>
-                <a class="item">
-                    10
-                </a>
-                <a class="item">
-                    11
-                </a>
-                <a class="item">
-                    Next
-                </a>
+
             </div>
 
             <div class="ui hidden horizontal divider"></div>
 
             <div class="ui ">
-                <div ng-repeat="post in cont.thread.posts" class="ui segment">
+                <div ng-repeat="post in thread.posts.data" class="ui segment">
                     <div class="ui grid mobile only">
                         <div class="equal width row ">
                             <div class="column">
@@ -38,7 +31,7 @@
                                     <img class="ui tiny left floated image" ng-src="@{{ post.posted_by.profile_img }}"/>
 
                                     <div class="content">
-                                        <a href="#">@{{ post.posted_by.username }}</a><br/>
+                                        <a href="#">@{{ post.user.name }}</a><br/>
                                         <span class=""><b>Member</b></span><br/>
                                         <span am-time-ago="post.posted_on"></span><br/>
                                         <span></span><br/>
@@ -59,12 +52,12 @@
 
                                                 <div class="ui fluid red card ">
                                                     <div class="image">
-                                                        <img class="ui small profile image" ng-src="@{{ post.posted_by.profile_img }}"/>
+                                                        <img class="ui small profile image" ng-src="@{{ post.user.profile_img }}"/>
                                                     </div>
                                                     <div class="content">
-                                                        <a href="#">@{{ post.posted_by.username }}</a><br/>
+                                                        <a href="#">@{{ post.user.username }}</a><br/>
                                                         <span class=""><b>Member</b></span><br/>
-                                                        <span am-time-ago="post.posted_on"></span>
+                                                        <span am-time-ago="post.created_at"></span>
                                                     </div>
                                                 </div>
                                                 </div>

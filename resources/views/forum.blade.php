@@ -1,11 +1,12 @@
 @extends("layout")
 
 @section("content")
+
     <div ng-cloak class="ui main container">
-        <div ng-controller="ForumController as cont" class="">
+        <div ng-controller="ForumController" ng-init="init('{{$slug}}')" class="">
             <h2 class="ui header">
-                @{{ cont.forum.title  }}
-                <div class="sub header">@{{ cont.forum.description }}</div>
+                @{{ forum.title  }}
+                <div class="sub header">@{{ forum.description }}</div>
             </h2>
 
             <div class="ui mini pagination pointing menu">
@@ -32,7 +33,7 @@
                 <div class="ui inverted segment category-title">
                     Threads
                 </div>
-                <div ng-repeat="thread in cont.forum.threads" class="ui segment">
+                <div ng-repeat="thread in forum.threads" class="ui segment">
                     <div class="ui divided items">
                         <div class="item">
                             <div class="ui container equal width grid ">
@@ -41,7 +42,7 @@
                                         <div class="left floated" style="margin-right: 10px">
                                             <i class="huge comments outline icon"></i>
                                         </div>
-                                        <div class="header"><a href="/thread/@{{ thread.url_helper }}">@{{ thread.title }}</a></div>
+                                        <div class="header"><a href="/thread/@{{ thread.slug }}">@{{ thread.title }}</a></div>
                                         <div class="meta">
                                             <a href="#">@{{ thread.posted_by.username }}</a> <span
                                                     am-time-ago="thread.posted_on"></span></span></p>

@@ -3,14 +3,14 @@
 @section("content")
     <div ng-cloak class="ui main container">
 
-        <div ng-cloak ng-controller="IndexController as cont" class="">
-            <div ng-repeat="category in cont.forums" class="ui segments">
+        <div ng-cloak ng-controller="IndexController" class="">
+            <div ng-repeat="category in forums" class="ui segments">
                 <div class="ui inverted segment category-title">
-                    <p><a href="/forum/@{{category.url_helper}}">@{{ category.title }}</a></p>
+                    <p><a href="/forum/@{{category.slug}}">@{{ category.title }}</a></p>
                     <p ng-if="category.description">@{{ category.description }}</p>
                 </div>
 
-                <div ng-repeat="forum in category.subForums" class="ui segment">
+                <div ng-repeat="forum in category.sub_forums" class="ui segment">
                     <div class="ui divided items">
                         <div class="item">
                             <div class="ui container grid ">
@@ -20,7 +20,7 @@
                                         <div class="left floated" style="margin-right: 10px">
                                             <i class="huge comments outline icon"></i>
                                         </div>
-                                        <div class="header"><a href="/forum/@{{forum.url_helper}}">@{{ forum.title }}</a></div>
+                                        <div class="header"><a href="/forum/@{{forum.slug }}">@{{ forum.title }}</a></div>
                                         <div class="description">
                                             @{{ forum.description | limitTo:10 }}
                                             @{{ forum.description.length >= 10 ? '...' : '' }}
