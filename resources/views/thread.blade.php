@@ -15,7 +15,7 @@
             <div class="ui hidden horizontal divider"></div>
 
             <div class="ui ">
-                <div ng-repeat="post in data.posts.data" class="ui segments">
+                <div ng-repeat="post in data.posts.data" class="ui">
                     <post data="post"></post>
 
                 </div>
@@ -24,8 +24,7 @@
                 <pagination page-data="data.posts" callback="loadPage(slug, page)"></pagination>
 
                 <div class="ui hidden horizontal divider"></div>
-
-                <post-form></post-form>
+                <post-form data="data.thread" ng-if="loggedIn()"></post-form>
 
             </div>
 @endsection

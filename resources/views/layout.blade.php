@@ -17,15 +17,15 @@
         <div class="item">
             <img src="http://boshkov.tech/icons/favicon.png">
         </div>
-        <div class="active red item">
+        <a href="/" class="active red item">
             Home
-        </div>
-        <a class="item">
+        </a>
+        <a href="/members" class="item">
             Members
         </a>
 
-        <form name="LoginForm" ng-controller="LoginController as loginCtrl" ng-submit="loginCtrl.tryLogin()" class="ui stackable right inverted menu">
-            <div ng-if="!loginCtrl.isAuthenticated()" class="ui stackable right inverted menu">
+        <form ng-cloak name="LoginForm" ng-controller="LoginController as loginCtrl" ng-submit="loginCtrl.tryLogin()" class="ui stackable right inverted menu">
+            <div ng-if="!loggedIn()" class="ui stackable right inverted menu">
                 <div class="item">
                     <div class="ui transparent icon inverted input">
                         <input ng-model="loginCtrl.user.username" type="text" placeholder="Username">
@@ -42,8 +42,8 @@
                     <button type="submit" class="ui red button">Sign in</button>
                 </div>
             </div>
-            <div ng-if="loginCtrl.isAuthenticated()" class="ui inverted stackable right menu">
-                <a href="#" class="ui item">Welcome, @{{loggedInUser().username}}</a>
+            <div ng-cloak ng-if="loggedIn()" class="ui inverted stackable right menu">
+                <a href="#" class="ui item">Welcome, @{{loggedInUser.username}}</a>
                 <a href="#" class="ui item" ng-click="loginCtrl.logOut()" >Log out</a>
             </div>
         </form>

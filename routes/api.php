@@ -46,14 +46,19 @@ Route::get('/thread/{slug}', function (Request $request, $slug ) {
 });
 
 
-Route::put('/post/add/{slug}', function (Request $request, $slug ) {
-    $thread = App\Thread::where("slug", $slug)->first();
+Route::put('/post/add/', function (Request $request ) {
     $post = new App\Post();
     $post->title = $request->title;
     $post->slug = "";
     $post->content = $request->content;
-    $post->posted_by = $request->posted_by;
-    $post->parent_id = $thread->id;
+
+    if ($request->user){
+        $post->posted_by = $request->user["id"];
+    }
+    else if ($request->posted_by) {
+        $post->posted_by = $request->posted_by;
+    }
+    $post->parent_id = $request->parent_id;
     $post->setCreatedAt(new DateTime());
     $post->save();
     $post->slug = App\Utils::generateURLHelper($post->title . " " . $post->id);

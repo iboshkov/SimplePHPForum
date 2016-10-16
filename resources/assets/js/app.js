@@ -27,42 +27,45 @@ require('./bootstrap');
     });
 
 
+    app.run(function ($rootScope, $http, $log, $auth, userService) {
+        $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
+        $rootScope.loggedIn = function (sender) {
+            return userService.isLoggedIn();
+        };
+
+        $rootScope.$on("user:updated", function (data) {
+            $rootScope.loggedInUser = userService.currentUser();
+        });
+        $log.info("App run");
+    });
+
+
     app.factory("userService", function ($log, $http, $auth, $q, $rootScope) {
         $log.info("User service init");
         var loggedInUser = null;
         var service = {
-            login: function (user) {
-                var defer = $q.defer();
-                $auth.login(user).then(function (response) {
-                    loggedInUser = response.data;
-                    defer.resolve(response.data);
-                    $rootScope.$broadcast('user:updated', loggedInUser);
-                }).catch(function (response) {
-
-                });
-                $log.info("Returning ");
-                $log.info(defer);
-                return defer.promise;
-            },
             logout: function () {
+                loggedInUser = null;
                 $auth.logout();
             },
             isLoggedIn: function () {
                 return $auth.isAuthenticated();
             },
             getUser: function () {
-                var defer = $q.defer();
                 $http.get("/api/user/")
                     .then(function (response) {
                         loggedInUser = response.data;
-                        defer.resolve(response.data);
-                        $log.info("Notifying listeners with ");
-                        $log.info(this.loggedInUser);
                         $rootScope.$broadcast('user:updated', loggedInUser);
                     }, function (response) {
                         $log.info("Error ?");
                     });
-                return defer.promise;
+            },
+            login: function (user) {
+                $auth.login(user).then(function (response) {
+                    service.getUser();
+                }).catch(function (response) {
+
+                });
             },
             currentUser: function () {
                 return loggedInUser;
@@ -75,12 +78,40 @@ require('./bootstrap');
         return service;
     });
 
-    app.run(function ($rootScope, $http, $log, $auth, userService) {
-        $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
-        $log.info("App run");
-        $rootScope.loggedInUser = userService.currentUser;
 
+
+    app.controller("PostController", function ($scope, $http, $log, $rootScope, userService) {
+        $log.info("Logged in user");
+
+        $scope.post = {
+            content: "test content",
+            user: {
+                username: "1234",
+            }
+        };
+
+        userService.getUser();
+
+        $scope.$on("user:updated", function (data) {
+            $log.info("Updating post controller");
+            $scope.post.user = userService.currentUser();
+        });
+
+        $scope.addPost = function addPost(thread) {
+            $log.info("Adding post" );
+            $log.info(thread);
+           // $http.get("/api/forum/" + slug + "?page=" + page_num)
+            $scope.post.title = thread.title;
+            $scope.post.parent_id = thread.id;
+            $log.info("Putting");
+            $log.info($scope.post);
+            $http.put("/api/post/add/", $scope.post).then(function(response){
+                $log.info("Tried to put");
+                $log.info(response);
+            });
+        }
     });
+
     app.controller("LoginController", function ($scope, $log, $auth, $http, $rootScope, userService) {
         this.user = {
             username: "test@example.com",
@@ -91,10 +122,6 @@ require('./bootstrap');
             scope: "*",
         };
 
-        this.isAuthenticated = function () {
-            return userService.isLoggedIn();
-        };
-
         this.logOut = function () {
             userService.logout();
         };
@@ -103,12 +130,7 @@ require('./bootstrap');
             $log.info(this.user);
             $log.info(this.user.username);
             $log.info(this.user.password);
-            userService.login(this.user).then(function (response) {
-                $log.info("Login success");
-
-            }).catch(function (response) {
-                $log.info("Login error");
-            });
+            userService.login(this.user);
         };
         $log.info("Login ctrl");
     });
@@ -189,56 +211,35 @@ require('./bootstrap');
         };
     });
 
-    app.directive('post', function () {
+    app.directive('post', function ($rootScope) {
         return {
             restrict: "E",
             scope: {
                 data: '=',
                 hideControls: '=',
             },
+
+
             templateUrl: "/angular/post",
         };
     });
-    app.directive('postForm', function () {
-        function link(scope, element, attrs) {
-            /*scope.post = {
-             content: "test content",
-             user: {
-             username: "user",
-             }
-             }*/
-        }
-
+    app.directive('postForm', function ($rootScope, $log) {
         return {
             restrict: "E",
             scope: {
                 data: '=',
             },
-            link: link,
+            link: function($scope, $element, $attrs) {
+                $log.info("Hello?")
+                console.log("Hello");
+                $scope.thread = $attrs.data;
+                console.log($attrs.data);
+
+            },
             templateUrl: "/angular/post_form",
         };
     });
 
-    app.controller("PostController", function ($scope, $http, $log, $rootScope, userService) {
-        $log.info("Logged in user");
-
-
-
-        $scope.post = {
-            content: "test content",
-            user: {
-                username: "1234",
-            }
-        };
-        $scope.$on("user:updated", function (data) {
-            $log.info("User updated");
-            $log.info(userService.currentUser());
-            $scope.post.user = userService.currentUser();
-        });
-        function addPost(thread) {
-
-        }
-    });
     app.controller("ThreadController", function ($scope, $http, $log, $rootScope) {
         $scope.current_page = 0;
         $scope.init = function (slug, page) {

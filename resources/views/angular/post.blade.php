@@ -78,3 +78,4 @@
         </div>
     </div>
 </div>
+<div class="ui horizontal divider"></div>
