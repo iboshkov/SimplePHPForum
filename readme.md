@@ -9,6 +9,7 @@ Uses/will use:
 - Laravel for the backend REST API
 - Angular 1.5 for frontend client-side interactivity and communication with the API
 - Semantic UI
+- Satellizer + Laravel Passport for authentication
 - Some extra JS and PHP libraries (see package.json and composer.json)
 
 Meant to be used with Homestead during development (Homestead.yaml and Vagrantfile provided).

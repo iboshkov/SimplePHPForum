@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
-        for ($i = 0; $i < 200; $i++){
+        for ($i = 0; $i < 2; $i++){
             $post_id  = $this->createPost("Test post " . $i, self::POST_CONTENT, $thread_id);
         }
     }

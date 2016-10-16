@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="ui red segment">
-                    Showing threads @{{ cont.forum.pagination_start+1 }} to @{{ cont.forum.pagination_start + cont.forum.threads.length }} from a total of @{{ cont.forum.num_threads }}
+                        Showing threads @{{ data.threads.from }} to @{{ data.threads.to }} from a total of @{{ data.threads.total }}
                 </div>
 
 

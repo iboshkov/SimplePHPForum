@@ -24,29 +24,34 @@
             Members
         </a>
 
-        <div class="ui stackable right inverted menu">
-            <div class="item">
-                <div class="ui transparent icon inverted input">
-                    <input type="text" placeholder="Username">
-                    <i class="user icon"></i>
+        <form name="LoginForm" ng-controller="LoginController as loginCtrl" ng-submit="loginCtrl.tryLogin()" class="ui stackable right inverted menu">
+            <div ng-if="!loginCtrl.isAuthenticated()" class="ui stackable right inverted menu">
+                <div class="item">
+                    <div class="ui transparent icon inverted input">
+                        <input ng-model="loginCtrl.user.username" type="text" placeholder="Username">
+                        <i class="user icon"></i>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui transparent icon inverted input">
+                        <input ng-model="loginCtrl.user.password" type="password" placeholder="Password">
+                        <i class="lock icon"></i>
+                    </div>
+                </div>
+                <div class="ui item">
+                    <button type="submit" class="ui red button">Sign in</button>
                 </div>
             </div>
-            <div class="item">
-                <div class="ui transparent icon inverted input">
-                    <input type="password" placeholder="Password">
-                    <i class="lock icon"></i>
-                </div>
+            <div ng-if="loginCtrl.isAuthenticated()" class="ui inverted stackable right menu">
+                <a href="#" class="ui item">Welcome, @{{loggedInUser().username}}</a>
+                <a href="#" class="ui item" ng-click="loginCtrl.logOut()" >Log out</a>
             </div>
-            <a class="ui item">
-                <div class="ui red button">Sign in</div>
-            </a>
-        </div>
+        </form>
 
     </div>
 
     <div class="ui hidden divider"></div>
-    <div ng-include="'/angular/breadcrumbs'">
-    </div>
+    <breadcrumbs path="breadcrumbPath"></breadcrumbs>
 </div>
 <div class="ui hidden divider"></div>
 <div class="ui container">

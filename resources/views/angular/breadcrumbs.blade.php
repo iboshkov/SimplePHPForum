@@ -1,8 +1,9 @@
 
-<div class="ui  segment">
+<div class="ui red segment">
     <div class="ui breadcrumb">
-        <a class="section">Home</a>
-        <div class="divider"> /</div>
-        <a class="section">@{{rootPage}}</a>
+        <span ng-repeat="item in path">
+            <a href="@{{ item.url }}" class="section">@{{item.name}}</a>
+            <div ng-show="!$last" class="divider"> /</div>
+        </span>
     </div>
 </div>

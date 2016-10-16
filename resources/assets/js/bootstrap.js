@@ -13,6 +13,8 @@ window.$ = window.jQuery = require('jquery');
 window.angular = require('angular');
 require('moment');
 require('angular-moment');
+require('satellizer');
+require('angular-loading-bar');
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

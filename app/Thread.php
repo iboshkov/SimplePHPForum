@@ -10,7 +10,7 @@ class Thread extends Model
 
     public function forum()
     {
-        return $this->belongsTo('App\Forum', "forum_id");
+        return $this->belongsTo('App\Forum', "parent_id");
     }
 
     public function main_post()
