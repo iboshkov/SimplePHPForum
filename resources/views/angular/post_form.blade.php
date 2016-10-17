@@ -19,8 +19,8 @@
     <div1 id="postText" class="field">
         @{{content}}
         <div ckeditor="options" ng-model="post.content" ready="onReady($instance)"></div>
-
     </div1>
+    <div class="ui hidden horizontal divider"></div>
     <button type="submit" class="ui red right floated labeled submit icon button">
         <i class="icon edit"></i> Add Reply
     </button>
