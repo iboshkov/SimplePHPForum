@@ -108,6 +108,7 @@ require('./bootstrap');
             $http.put("/api/post/add/", $scope.post).then(function(response){
                 $log.info("Tried to put");
                 $log.info(response);
+                $rootScope.$broadcast("posts:updated");
             });
         }
     });
@@ -242,10 +243,18 @@ require('./bootstrap');
 
     app.controller("ThreadController", function ($scope, $http, $log, $rootScope) {
         $scope.current_page = 0;
+        $scope.numPages = 0;
         $scope.init = function (slug, page) {
             $scope.slug = slug;
+            $log.info("Pages: " + $scope.pageData);
             $scope.loadPage(slug, page);
         };
+
+        $scope.$on("posts:updated", function (data) {
+            $log.info("Refreshing posts");
+            // Todo: get num pages before loading last page
+            $scope.loadPage(null, $scope.numPages);
+        });
 
         $scope.loadPage = function (slug, page_num) {
             if (slug == null)
@@ -254,6 +263,9 @@ require('./bootstrap');
                 .then(function (response) {
                     var addBreadcrumbs = $scope.data == null;
                     $scope.data = response.data;
+                    $scope.numPages = Math.ceil($scope.data.posts.total / $scope.data.posts.per_page);
+                    $log.info("pages");
+                    $log.info($scope.data);
                     if (addBreadcrumbs) {
                         addForumBreadcrumbs($rootScope, $scope.data.thread.forum);
                         $rootScope.breadcrumbPath.push({name: $scope.data.thread.title, url: "/"});
