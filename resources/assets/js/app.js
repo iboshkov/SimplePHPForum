@@ -116,11 +116,21 @@ require('./bootstrap');
             allowedContent: true,
             entities: false
         };
-
+        $('#postPreview').transition('hide');
         // Called when the editor is completely ready.
         $scope.onReady = function ($instance) {
             console.log("Editor ready");
             $log.info($instance);
+            var editor = $instance;
+            editor.on('focus', function(e) {
+                $('#postPreview').transition('scale in');
+                console.log('The editor named ' + e.editor.name + ' is now focused');
+                $rootScope.scrollToPostArea();
+            });
+            editor.on('blur', function(e) {
+                $('#postPreview').transition('scale out');
+                console.log('The editor named ' + e.editor.name + ' is now not focused');
+            });
         };
 
         /*
