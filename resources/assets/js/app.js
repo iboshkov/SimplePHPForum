@@ -90,6 +90,18 @@ require('./bootstrap');
         function resetPost() {
             $scope.post.content = "";
         }
+
+        $scope.showPreview = false;
+
+        $scope.$watch("showPreview", function () {
+            $log.info("change");
+            if ($scope.showPreview) {
+                $('html, body').animate({
+                    scrollTop: $("#postText").offset().top
+                }, 200);
+            }
+        });
+
         resetPost();
         userService.getUser();
 
