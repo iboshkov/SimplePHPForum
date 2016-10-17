@@ -7,8 +7,7 @@
 require('./bootstrap');
 
 (function () {
-    window.app = angular.module("forums", ['angularMoment', 'satellizer', 'angular-loading-bar']);
-
+    window.app = angular.module("forums", ['angularMoment', 'ckeditor', 'satellizer', 'angular-loading-bar']);
     app.config(function ($authProvider) {
         $authProvider.httpInterceptor = function () {
             return true;
@@ -36,6 +35,13 @@ require('./bootstrap');
         $rootScope.$on("user:updated", function (data) {
             $rootScope.loggedInUser = userService.currentUser();
         });
+
+        $rootScope.scrollToPostArea = function() {
+            $log.info("Scroll to post");
+            $('html, body').animate({
+                scrollTop: $("#postText").offset().top
+            }, 200);
+        };
         $log.info("App run");
     });
 
@@ -78,28 +84,95 @@ require('./bootstrap');
         return service;
     });
 
+    app.controller("PostController", function ($scope, $http, $log, $rootScope, userService, $sce) {
+        $scope.test = function() {
+            $log.info("Lol");
+            $rootScope.scrollToPostArea();
+            $log.info("Lol1");
+        };
 
+        $scope.content = function () {
+            return $sce.trustAsHtml($scope.data.content);
+        }
 
-    app.controller("PostController", function ($scope, $http, $log, $rootScope, userService) {
+    });
+
+    app.controller("PostFormController", function ($scope, $http, $log, $rootScope, userService) {
         $log.info("Logged in user");
         $scope.post = {
             content: "",
             user: {
             }
         };
+
+        $scope.state = {
+            showPreview: false,
+        };
+
+        // Editor options.
+        $scope.options = {
+            language: 'en',
+            skin: "minimalist",
+            allowedContent: true,
+            entities: false
+        };
+
+        // Called when the editor is completely ready.
+        $scope.onReady = function ($instance) {
+            console.log("Editor ready");
+            $log.info($instance);
+        };
+
+        /*
+
+        $scope.quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+        var renderer  = require('quilljs-renderer');
+        var Document  = renderer.Document;
+
+        // Load the built-in HTML formatter
+        renderer.loadFormat('html');
+
+        $scope.quill.on('text-change', function() {
+            console.log('Text change!');
+            var delta = $scope.quill.getContents();
+            $log.info(delta.ops);
+
+            var doc = new Document(delta.ops);
+            $scope.post.content = "!234";
+            console.log(doc.convertTo('html'));
+
+
+        });
+        $scope.quill.on('selection-change', function() {
+            console.log('focus!' + $scope.quill.hasFocus());
+            $scope.state.showPreview = $scope.quill.hasFocus();
+            console.log('Show preview ? ' + $scope.state.showPreview);
+            var inAnim = "scale in";
+            var outAnim = "scale out";
+            var anim = $scope.state.showPreview ? inAnim : outAnim;
+            $('#postPreview')
+                .transition(anim)
+            ;
+        });
+
+*/
         function resetPost() {
             $scope.post.content = "";
-        }
+        }/*
 
-        $scope.showPreview = false;
+        $('#postPreview')
+            .transition('hide')
+        ;*/
+        $scope.$watch("state.showPreview", function () {
+/*
+            $log.info("Preview changed");
+            $log.info($scope.state.showPreview);
 
-        $scope.$watch("showPreview", function () {
-            $log.info("change");
-            if ($scope.showPreview) {
-                $('html, body').animate({
-                    scrollTop: $("#postText").offset().top
-                }, 200);
-            }
+            if ($scope.state.showPreview) {
+                $rootScope.scrollToPostArea();
+            }*/
         });
 
         resetPost();

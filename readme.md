@@ -10,6 +10,8 @@ Uses/will use:
 - Angular 1.5 for frontend client-side interactivity and communication with the API
 - Semantic UI
 - Satellizer + Laravel Passport for authentication
+- CKEditor + [my patched fork of angular-ckeditor](https://github.com/iboshkov/angular-ckeditor), should move
+into a bower package.
 - Some extra JS and PHP libraries (see package.json and composer.json)
 
 Meant to be used with Homestead during development (Homestead.yaml and Vagrantfile provided).

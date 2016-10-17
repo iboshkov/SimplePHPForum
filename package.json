@@ -17,6 +17,7 @@
     "angular": "^1.5.8",
     "angular-loading-bar": "^0.9.0",
     "angular-moment": "^1.0.0",
+    "angular-sanitize": "^1.5.8",
     "angular-utils-pagination": "^0.11.1",
     "satellizer": "^0.15.5",
     "semantic-ui": "^2.2.4"

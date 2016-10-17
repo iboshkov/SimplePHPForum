@@ -1,15 +1,6 @@
-<form ng-controller="PostController" ng-submit="addPost(data)" class="ui reply form">
+<form ng-controller="PostFormController"  ng-submit="addPost(data)" class="ui reply form">
 
-    <h4>Posting in: @{{ data.title }}</h4>
-    <div class="field">
-        <textarea id="postText" ng-focus="showPreview = true" ng-blur="showPreview = false" ng-model="post.content"></textarea>
-    </div>
-
-    <button type="submit" class="ui red right floated labeled submit icon button">
-        <i class="icon edit"></i> Add Reply
-    </button>
-
-    <div class="ui field" ng-if="showPreview" >
+    <div class="ui field " id="postPreview" >
         <div class="ui hidden horizontal divider"></div>
         <h2 class="ui header">
             <i class="flipped outline comment icon"></i>
@@ -21,6 +12,18 @@
 
         <post data="post" hide-controls="true"></post>
     </div>
+    @{{ state.showPreview }}
+    <input type="checkbox" ng-model="state.showPreview"/>1
+    <h4>Posting in: @{{ data.title }}</h4>
+    @{{ post.content }}
+    <div1 id="postText" class="field">
+        @{{content}}
+        <div ckeditor="options" ng-model="post.content" ready="onReady($instance)"></div>
+
+    </div1>
+    <button type="submit" class="ui red right floated labeled submit icon button">
+        <i class="icon edit"></i> Add Reply
+    </button>
 
 
 </form>

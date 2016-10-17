@@ -11,10 +11,18 @@ window.$ = window.jQuery = require('jquery');
 
 
 window.angular = require('angular');
+require("../../../semantic/dist/semantic");
 require('moment');
 require('angular-moment');
 require('satellizer');
+window.CKEDITOR_BASEPATH = '/ckeditor/';
+
 require('angular-loading-bar');
+require("../../../bower_components/ckeditor/ckeditor");
+require("../../../bower_components/ckeditor/config");
+require("../../../bower_components/ckeditor/lang/en");
+require("../../../bower_components/ckeditor/styles");
+require("../../../bower_components/angular-ckeditor/angular-ckeditor");
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

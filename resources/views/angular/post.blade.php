@@ -1,4 +1,5 @@
-<div class="ui segment">
+<div ng-controller="PostController" class="ui segment">
+
     <div class="ui grid mobile only">
         <div class="equal width row ">
             <div class="column">
@@ -41,7 +42,7 @@
                         </div>
                         <div class="column">
                             <h3 class="header"><a href="">@{{ data.title }}</a></h3>
-                            @{{ data.content }}
+                            <div ng-bind-html="content()"></div>
                         </div>
                         </row>
                     </div>
@@ -58,9 +59,9 @@
                 <div class="ui right floated horizontal list">
                     <div class="item">
                         <div class="ui labeled button" tabindex="0">
-                            <div class="ui button">
+                            <a ng-click="test()" class="ui button">
                                 <i class="reply icon"></i> Reply
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div class="item">

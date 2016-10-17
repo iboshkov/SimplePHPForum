@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link href="https://cdn.quilljs.com/1.1.0/quill.snow.css" rel="stylesheet">
     <title>Forums - Index</title>
+
     <script src="/js/app.js" type="text/javascript"></script>
     <link href="/css/app.css" rel="stylesheet" type="text/css"/>
     <!-- Fonts -->
@@ -61,6 +63,7 @@
 </div>
 
 @yield("content")
+
 
 <div class="ui hidden clearing divider"></div>
 <footer>
