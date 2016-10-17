@@ -82,14 +82,15 @@ require('./bootstrap');
 
     app.controller("PostController", function ($scope, $http, $log, $rootScope, userService) {
         $log.info("Logged in user");
-
         $scope.post = {
-            content: "test content",
+            content: "",
             user: {
-                username: "1234",
             }
         };
-
+        function resetPost() {
+            $scope.post.content = "";
+        }
+        resetPost();
         userService.getUser();
 
         $scope.$on("user:updated", function (data) {
@@ -108,6 +109,7 @@ require('./bootstrap');
             $http.put("/api/post/add/", $scope.post).then(function(response){
                 $log.info("Tried to put");
                 $log.info(response);
+                resetPost();
                 $rootScope.$broadcast("posts:updated");
             });
         }
