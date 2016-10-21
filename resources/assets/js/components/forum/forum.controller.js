@@ -8,10 +8,9 @@
 
     function ForumController($scope, $http, $log, $rootScope) {
         $scope.current_page = 0;
-        $scope.init = function (slug, page) {
-            $scope.slug = slug;
-            $scope.loadPage(slug, page);
-        };
+        console.log("Forum init");
+
+        $scope.slug = "installation-upgrade-and-import-support";
 
         $scope.loadPage = function (slug, page_num) {
             $log.info("Loading page " + slug + "|" + page_num);
@@ -29,5 +28,7 @@
                     $log.info("Error ?");
                 });
         };
+        $scope.loadPage($scope.slug, 1);
+
     }
 })();

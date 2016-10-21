@@ -7,7 +7,8 @@
 require('./bootstrap');
 
 (function () {
-    window.app = angular.module("forums", ['angularMoment', 'ckeditor', 'satellizer', 'angular-loading-bar']);
+    window.app = angular.module("forums", ['angularMoment', 'ckeditor', 'satellizer', 'angular-loading-bar',
+        'ui.router']);
 
     // Services
     require("./services/user.factory");
@@ -23,7 +24,10 @@ require('./bootstrap');
     require("./components/forum/forum");
     require("./components/index/index");
 
-    app.config(["$authProvider", function ($authProvider) {
+    app.config(["$authProvider", "$urlRouterProvider", function ($authProvider, $urlRouterProvider) {
+        // Route to "/" by default
+        $urlRouterProvider.otherwise("/");
+
         $authProvider.httpInterceptor = function () {
             return true;
         };
@@ -40,16 +44,8 @@ require('./bootstrap');
         $authProvider.storageType = 'localStorage';
     }]);
 
-
-    app.run(["$rootScope", "$http", "$log", "$auth", "UserService", function ($rootScope, $http, $log, $auth, UserService) {
+    app.run(["$rootScope", "$http", "$log", "$auth", function ($rootScope, $http, $log, $auth) {
         $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
-        $rootScope.loggedIn = function (sender) {
-            return UserService.isLoggedIn();
-        };
-
-        $rootScope.$on("user:updated", function (data) {
-            $rootScope.loggedInUser = UserService.currentUser();
-        });
 
         $rootScope.addForumBreadcrumbs = function($rootScope, forumData) {
             if (forumData.parent) {
@@ -64,6 +60,7 @@ require('./bootstrap');
                 scrollTop: $("#postText").offset().top
             }, 200);
         };
+
         $log.info("App run");
     }]);
 

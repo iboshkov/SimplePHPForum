@@ -1,5 +1,4 @@
 (function () {
-    console.log("Testing");
     angular
         .module('forums')
         .factory('UserService', UserService);
@@ -7,39 +6,53 @@
     UserService.$inject = ["$log", "$http", "$auth", "$q", "$rootScope"];
 
     function UserService($log, $http, $auth, $q, $rootScope) {
-        $log.info("User service init");
         var loggedInUser = null;
+
         var service = {
-            logout: function () {
-                loggedInUser = null;
-                $auth.logout();
-            },
-            isLoggedIn: function () {
-                return $auth.isAuthenticated();
-            },
-            getUser: function () {
-                $http.get("/api/user/")
-                    .then(function (response) {
-                        loggedInUser = response.data;
-                        $rootScope.$broadcast('user:updated', loggedInUser);
-                    }, function (response) {
-                        $log.info("Error ?");
-                    });
-            },
-            login: function (user) {
-                $auth.login(user).then(function (response) {
-                    service.getUser();
-                }).catch(function (response) {
-
-                });
-            },
-            currentUser: function () {
-                return loggedInUser;
-            }
-
+            logout: logoutFn,
+            isLoggedIn: isLoggedInFn,
+            getUser: getUserFn,
+            login: loginFn,
         };
 
-        service.getUser();
+        function logoutFn() {
+            loggedInUser = null;
+            $auth.logout();
+        }
+
+        function isLoggedInFn() {
+            return $auth.isAuthenticated();
+        }
+
+        function loginFn(user) {
+            var defer = $q.defer();
+            $auth.login(user).then(function (response) {
+                service.getUser();
+            }).catch(function (response) {
+
+            });
+        }
+
+        function getUserFn() {
+            var defer = $q.defer();
+
+            if (service.isLoggedIn()) {
+                return $q.when(loggedInUser);
+            }
+
+            $http.get("/api/user/")
+                .then(function (response) {
+                    loggedInUser = response.data;
+
+                    // TODO: Remove the need for this
+                    $rootScope.$broadcast('user:updated', loggedInUser);
+                    defer.resolve(loggedInUser);
+                }, function (response) {
+                    $log.info("Error getting logged in user.");
+                });
+
+            return defer.promise;
+        }
 
         return service;
     }

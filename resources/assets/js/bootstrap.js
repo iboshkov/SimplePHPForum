@@ -15,9 +15,11 @@ require("../../../semantic/dist/semantic");
 require('moment');
 require('angular-moment');
 require('satellizer');
-window.CKEDITOR_BASEPATH = '/ckeditor/';
-
 require('angular-loading-bar');
+require('angular-ui-router');
+
+// CKEditor
+window.CKEDITOR_BASEPATH = '/ckeditor/';
 require("../../../bower_components/ckeditor/ckeditor");
 require("../../../bower_components/ckeditor/config");
 require("../../../bower_components/ckeditor/lang/en");

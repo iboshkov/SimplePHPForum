@@ -66,6 +66,7 @@
 
 
 <div class="ui hidden clearing divider"></div>
+<div class="ui container">
 <footer>
     Copyright &copy; {{ 2016 }} Ilija Boshkov.
 </footer>

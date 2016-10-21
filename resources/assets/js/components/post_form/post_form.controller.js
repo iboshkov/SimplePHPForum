@@ -6,7 +6,6 @@
     PostFormController.$inject = ["$scope", "$http", "$log", "$rootScope", "UserService"];
 
     function PostFormController($scope, $http, $log, $rootScope, UserService) {
-        $log.info("Logged in user");
         $scope.post = {
             content: "",
             user: {
