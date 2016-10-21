@@ -13,9 +13,8 @@ require('laravel-elixir-vue-2');
  |
  */
 
-elixir(mix => {
-    mix.sass('app.scss')
-    .less('app.less')
+elixir(function(mix) {
+    mix.less('app.less')
     .copy('bower_components/ckeditor/', 'public/ckeditor/')
     .copy('semantic/src/themes/default/assets', 'public/themes/default/assets')
        .webpack('app.js');
