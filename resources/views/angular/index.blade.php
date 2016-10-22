@@ -1,6 +1,6 @@
 <div ng-cloak class="ui main container">
 
-    <div ng-cloak ng-controller="IndexController" class="">
+    <div ng-cloak class="">
         <div ng-repeat="category in forums" class="ui segments">
             <div class="ui inverted segment category-title">
                 <p><a href="/forum/@{{category.slug}}">@{{ category.title }}</a></p>

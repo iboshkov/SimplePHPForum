@@ -3,12 +3,13 @@
         .module('forums')
         .controller('IndexController', IndexController);
 
-    IndexController.$inject = ["$scope", "$http", "$log", "$rootScope", "UserService", "BreadcrumbsService"];
+    IndexController.$inject = ["$scope", "$http", "$log", "$rootScope", "UserService", "BreadcrumbsService", "ForumService"];
 
-    function IndexController($scope, $http, $log, $rootScope, UserService, BreadcrumbsService) {
-        $http.get("/api/forums")
-            .then(function (response) {
-                $scope.forums = response.data;
-            });
+    function IndexController($scope, $http, $log, $rootScope, UserService, BreadcrumbsService, ForumService) {
+        ForumService.getAll().then(function(data) {
+            $scope.forums = data;
+        });
+
+        console.log("Getting forums")
     }
 })();

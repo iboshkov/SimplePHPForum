@@ -3,19 +3,19 @@
         .module('forums')
         .controller('ForumController', ForumController);
 
-    ForumController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams", "$state", "BreadcrumbsService"];
+    ForumController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams", "$state", "BreadcrumbsService"
+    , "ForumService"];
 
-    function ForumController($scope, $http, $log, $rootScope, $stateParams, $state, BreadcrumbsService) {
+    function ForumController($scope, $http, $log, $rootScope, $stateParams, $state, BreadcrumbsService, ForumService) {
         $scope.slug = $stateParams.slug;
         $scope.page = $stateParams.page;
 
-        // TODO: Refactor into a service
-        $http.get("/api/forum/" + $scope.slug + "?page=" + $scope.page)
-            .then(function (response) {
-                $scope.data = response.data;
+        ForumService.getThreads($scope.slug, $scope.page)
+            .then(function (data) {
+                $scope.data = data;
                 BreadcrumbsService.addBreadcrumb({name: $scope.data.forum.title, type: "forum", slug: $scope.data.forum.slug});
-            }, function (response) {
-                $log.info("Error ?");
+            }, function (message) {
+                $log.error(message);
             });
 
         $scope.goToThread = function(thread){
