@@ -4,13 +4,12 @@
         .module('forums')
         .controller('ForumController', ForumController);
 
-    ForumController.$inject = ["$scope", "$http", "$log", "$rootScope"];
+    ForumController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams", "$state"];
 
-    function ForumController($scope, $http, $log, $rootScope) {
+    function ForumController($scope, $http, $log, $rootScope, $stateParams, $state) {
         $scope.current_page = 0;
-        console.log("Forum init");
 
-        $scope.slug = "installation-upgrade-and-import-support";
+        $scope.slug = $stateParams.slug;
 
         $scope.loadPage = function (slug, page_num) {
             $log.info("Loading page " + slug + "|" + page_num);

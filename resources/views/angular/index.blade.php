@@ -17,7 +17,7 @@
                                     <div class="left floated" style="margin-right: 10px">
                                         <i class="huge comments outline icon"></i>
                                     </div>
-                                    <div class="header"><a ui-sref="forum{{--/@{{forum.slug }}--}}">@{{ forum.title }}</a></div>
+                                    <div class="header"><a ui-sref="forum({slug: forum.slug})">@{{ forum.title }}</a></div>
                                     <div class="description">
                                         @{{ forum.description | limitTo:10 }}
                                         @{{ forum.description.length >= 10 ? '...' : '' }}

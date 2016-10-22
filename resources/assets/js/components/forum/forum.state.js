@@ -7,7 +7,7 @@
 
     function registerState($stateProvider) {
         $stateProvider.state('forum', {
-            url: '/forum/{forumId}',
+            url: '/forum/{slug}',
             template: '<h1>test</h1><forum></forum><h1>endtest</h1>',
         });
     }
