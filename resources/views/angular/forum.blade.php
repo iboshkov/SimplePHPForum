@@ -4,7 +4,6 @@
             @{{ data.forum.title  }}
             <div class="sub header">@{{ data.forum.description }}</div>
         </h2>
-        Slug: @{{ slug }}
 
         <pagination page-data="data.threads" callback="loadPage(page)"></pagination>
 

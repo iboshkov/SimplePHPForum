@@ -13,7 +13,7 @@
 
         <div class="ui">
             <div ng-repeat="post in data.posts.data" class="ui">
-                <post ng-attr-id="@{{ $last ? 'lastPost' : undefined}}" scroll-if="@{{ $last }}" data="post"></post>
+                <post ng-attr-id="@{{ $last ? 'lastPost' : undefined}}" scroll-if="@{{ scrollToLast && $last }}" data="post"></post>
             </div>
             <div class="ui hidden horizontal divider"></div>
 

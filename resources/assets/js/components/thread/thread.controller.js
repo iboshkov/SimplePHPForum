@@ -11,12 +11,7 @@
         $scope.slug = $stateParams.slug;
         $scope.page = $stateParams.page;
         console.log($stateParams);
-
-
-        $scope.$watch("data", function (value) {
-            console.log("Data change");
-
-        });
+        $scope.scrollToLast = $stateParams.scrollToLast == "true";
 
         ThreadService.getThreadAndPosts($scope.slug, $scope.page)
             .then(function (data) {
@@ -29,7 +24,7 @@
             });
 
         $scope.loadPage = function (page_num, source) {
-            $state.go("thread", {page: page_num, slug: $scope.slug});
+            $state.go("thread", {page: page_num, slug: $scope.slug, scrollToLast: false});
         };
     }
 })();

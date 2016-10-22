@@ -56,7 +56,6 @@ require('./bootstrap');
                 evt.preventDefault();
                 BreadcrumbsService.resetBreadcrumbs();
                 console.log("LOcation change");
-
             });
 
             UserService.getUser().then(function(user){
@@ -76,39 +75,26 @@ require('./bootstrap');
                 return UserService.isLoggedIn();
             };
 
-            $rootScope.addForumBreadcrumbs = function ($rootScope, forumData) {
-                if (forumData.parent) {
-                    $rootScope.breadcrumbPath.push({
-                        name: forumData.parent.title,
-                        url: "/forum/" + forumData.parent.slug
-                    });
-                }
-                $rootScope.breadcrumbPath.push({name: forumData.title, url: "/forum/" + forumData.slug});
-            };
-
             $rootScope.scrollToElement = function (element) {
-                $log.info("Scroll to element");
                 $('html, body').animate({
                     scrollTop: $(element).offset().top
                 }, 200);
             };
 
             $rootScope.scrollToPostArea = function () {
-                $log.info("Scroll to post");
                 $rootScope.scrollToElement("#postText");
             };
 
-            $log.info("App run");
         }]);
 
     app.filter('range', function () {
-        return function (input, total) {
-            total = parseInt(total);
+        return function (input, min, max) {
+            min = parseInt(min);
+            max = parseInt(max);
 
-            for (var i = 0; i < total; i++) {
+            for (var i = min; i < max; i++) {
                 input.push(i);
             }
-
             return input;
         };
     });
