@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::get('/forum/{slug}', function (Request $request, $slug ) {
         "forum" => $forum,
         "threads" => $threads,
     );
+
     return Response::json($result, $status=200, $headers=[], $options=JSON_PRETTY_PRINT);
 });
 
@@ -38,7 +40,18 @@ Route::get('/thread/{slug}', function (Request $request, $slug ) {
     $thread = App\Thread::where("slug", $slug)->with(array("forum" => function($query){
         $query->with("parent");
     }))->first();
+
+
     $posts = $thread->posts()->with("user")->paginate(10);
+
+    if ($request->page == -1) {
+        $currentPage = $posts->lastPage();
+        \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($currentPage) {
+            return $currentPage;
+        });
+
+        $posts = $thread->posts()->with("user")->paginate(10);
+    }
 
     $result = array("thread" => $thread, "main_post" => $thread->posts()->with("user")->first(), "posts" => $posts, "pages" => $posts->total() / $posts->perPage());
     //$result = App\Post::paginate(5);

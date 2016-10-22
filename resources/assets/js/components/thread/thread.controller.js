@@ -4,11 +4,19 @@
         .controller('ThreadController', ThreadController);
 
     ThreadController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams",
-        "$state", "BreadcrumbsService", "ThreadService"];
+        "$state", "BreadcrumbsService", "ThreadService", "$anchorScroll",  "$location"];
 
-    function ThreadController($scope, $http, $log, $rootScope, $stateParams, $state, BreadcrumbsService, ThreadService) {
+    function ThreadController($scope, $http, $log, $rootScope, $stateParams, $state, BreadcrumbsService, ThreadService,
+    $anchorScroll, $location) {
         $scope.slug = $stateParams.slug;
         $scope.page = $stateParams.page;
+        console.log($stateParams);
+
+
+        $scope.$watch("data", function (value) {
+            console.log("Data change");
+
+        });
 
         ThreadService.getThreadAndPosts($scope.slug, $scope.page)
             .then(function (data) {

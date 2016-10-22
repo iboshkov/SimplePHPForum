@@ -7,11 +7,12 @@
 
     function registerState($stateProvider) {
         $stateProvider.state('thread', {
-            url: '/forum/{parentSlug}/{parentPage}/{slug}/{page}/',
+            url: '/forum/{parentSlug}/{parentPage}/{slug}/{page}/?scrollToLast',
             params: {
                 page: {value: "1"},
                 parentSlug: {value: "---"},
                 parentPage: {value: "1"},
+                scrollToLast: {value: "false"},
             },
             templateUrl: "/angular/thread",
             controller: "ThreadController",

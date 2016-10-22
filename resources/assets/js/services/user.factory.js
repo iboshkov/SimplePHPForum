@@ -6,17 +6,18 @@
     UserService.$inject = ["$log", "$http", "$auth", "$q", "$rootScope"];
 
     function UserService($log, $http, $auth, $q, $rootScope) {
-        var loggedInUser = null;
+        var loggedInUserObj = null;
 
         var service = {
             logout: logoutFn,
             isLoggedIn: isLoggedInFn,
             getUser: getUserFn,
             login: loginFn,
+            loggedInUser: loggedInUserObj,
         };
 
         function logoutFn() {
-            loggedInUser = null;
+            loggedInUserObj = null;
             $auth.logout();
         }
 
@@ -26,29 +27,37 @@
 
         function loginFn(user) {
             var defer = $q.defer();
-            $auth.login(user).then(function (response) {
-                service.getUser();
-            }).catch(function (response) {
+            $auth.login(user)
+                .then(function (response) {
+                    defer.resolve(response, service.getUser());
+                })
+                .catch(function (response) {
+                    defer.reject({message: "Error logging in"}, response);
+                });
 
-            });
+            return defer.promise;
         }
 
         function getUserFn() {
             var defer = $q.defer();
 
-            if (service.isLoggedIn()) {
-                return $q.when(loggedInUser);
+            if (service.isLoggedIn() && loggedInUserObj != null) {
+                console.log("User logged in - returning object");
+                console.log(loggedInUserObj);
+                return $q.when(loggedInUserObj);
             }
 
             $http.get("/api/user/")
                 .then(function (response) {
-                    loggedInUser = response.data;
+                    loggedInUserObj = response.data;
+                    console.log("Got user");
+                    console.log(loggedInUserObj);
 
                     // TODO: Remove the need for this
-                    $rootScope.$broadcast('user:updated', loggedInUser);
-                    defer.resolve(loggedInUser);
+                    $rootScope.$broadcast('user:updated', loggedInUserObj);
+                    defer.resolve(loggedInUserObj);
                 }, function (response) {
-                    $log.info("Error getting logged in user.");
+                    defer.reject({message: "Error getting logged in user."});
                 });
 
             return defer.promise;

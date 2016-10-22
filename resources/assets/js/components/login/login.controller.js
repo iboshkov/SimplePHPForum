@@ -15,6 +15,8 @@
             scope: "*",
         };
 
+        console.log(UserService.getUser());
+
         this.logOut = function () {
             UserService.logout();
         };
@@ -23,7 +25,11 @@
             $log.info(this.user);
             $log.info(this.user.username);
             $log.info(this.user.password);
-            UserService.login(this.user);
+            UserService.login(this.user).then(function(){
+                console.log("After login");
+            }).catch(function(){
+                console.log("After login - error");
+            });
         };
         $log.info("Login ctrl");
     }

@@ -24,6 +24,9 @@ require('./bootstrap');
     require("./components/forum/forum");
     require("./components/index/index");
 
+    // Directives
+    require("./directives/scroll_if.directive");
+
     app.config(["$authProvider", "$urlRouterProvider", function ($authProvider, $urlRouterProvider) {
         // Route to "/" by default
         $urlRouterProvider.otherwise("/");
@@ -44,35 +47,59 @@ require('./bootstrap');
         $authProvider.storageType = 'localStorage';
     }]);
 
-    app.run(["$rootScope", "$http", "$log", "BreadcrumbsService",
-        function ($rootScope, $http, $log, BreadcrumbsService) {
-        $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
+    app.run(["$rootScope", "$http", "$log", "BreadcrumbsService", "UserService",
+        function ($rootScope, $http, $log, BreadcrumbsService, UserService) {
+            $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
 
-        $rootScope.$on('$locationChangeSuccess', function(evt) {
-            // Halt state change from even starting
-            evt.preventDefault();
-            BreadcrumbsService.resetBreadcrumbs();
-            console.log("LOcation change");
+            $rootScope.$on('$stateChangeSuccess', function (evt) {
+                // Halt state change from even starting
+                evt.preventDefault();
+                BreadcrumbsService.resetBreadcrumbs();
+                console.log("LOcation change");
 
-        });
+            });
 
+            UserService.getUser().then(function(user){
+                console.log("User logged in");
+                $rootScope.loggedInUser = user;
+                console.log($rootScope.loggedInUser);
 
-        $rootScope.addForumBreadcrumbs = function($rootScope, forumData) {
-            if (forumData.parent) {
-                $rootScope.breadcrumbPath.push({name: forumData.parent.title, url: "/forum/" + forumData.parent.slug});
-            }
-            $rootScope.breadcrumbPath.push({name: forumData.title, url: "/forum/" + forumData.slug});
-        };
+            }).catch(function(){
+                console.log("User logged in - error");
+            });
 
-        $rootScope.scrollToPostArea = function() {
-            $log.info("Scroll to post");
-            $('html, body').animate({
-                scrollTop: $("#postText").offset().top
-            }, 200);
-        };
+            $rootScope.loggedInUser = function() {
+                return UserService.loggedInUser;
+            };
 
-        $log.info("App run");
-    }]);
+            $rootScope.loggedIn = function() {
+                return UserService.isLoggedIn();
+            };
+
+            $rootScope.addForumBreadcrumbs = function ($rootScope, forumData) {
+                if (forumData.parent) {
+                    $rootScope.breadcrumbPath.push({
+                        name: forumData.parent.title,
+                        url: "/forum/" + forumData.parent.slug
+                    });
+                }
+                $rootScope.breadcrumbPath.push({name: forumData.title, url: "/forum/" + forumData.slug});
+            };
+
+            $rootScope.scrollToElement = function (element) {
+                $log.info("Scroll to element");
+                $('html, body').animate({
+                    scrollTop: $(element).offset().top
+                }, 200);
+            };
+
+            $rootScope.scrollToPostArea = function () {
+                $log.info("Scroll to post");
+                $rootScope.scrollToElement("#postText");
+            };
+
+            $log.info("App run");
+        }]);
 
     app.filter('range', function () {
         return function (input, total) {

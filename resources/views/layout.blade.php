@@ -25,7 +25,6 @@
         <a href="/members" class="item">
             Members
         </a>
-
         <form ng-cloak name="LoginForm" ng-controller="LoginController as loginCtrl" ng-submit="loginCtrl.tryLogin()" class="ui stackable right inverted menu">
             <div ng-if="!loggedIn()" class="ui stackable right inverted menu">
                 <div class="item">

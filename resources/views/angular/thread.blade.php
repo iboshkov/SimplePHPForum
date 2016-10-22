@@ -11,10 +11,9 @@
 
         <div class="ui hidden horizontal divider"></div>
 
-        <div class="ui ">
+        <div class="ui">
             <div ng-repeat="post in data.posts.data" class="ui">
-                <post data="post"></post>
-
+                <post ng-attr-id="@{{ $last ? 'lastPost' : undefined}}" scroll-if="@{{ $last }}" data="post"></post>
             </div>
             <div class="ui hidden horizontal divider"></div>
 
@@ -22,7 +21,6 @@
 
             <div class="ui hidden horizontal divider"></div>
             <post-form data="data.thread" ng-if="loggedIn()"></post-form>
-
         </div>
     </div>
 </div>
