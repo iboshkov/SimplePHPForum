@@ -1,34 +1,29 @@
 (function () {
-    console.log("Testing");
     angular
         .module('forums')
         .controller('ForumController', ForumController);
 
-    ForumController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams", "$state"];
+    ForumController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams", "$state", "BreadcrumbsService"];
 
-    function ForumController($scope, $http, $log, $rootScope, $stateParams, $state) {
-        $scope.current_page = 0;
-        $log.info($state);
+    function ForumController($scope, $http, $log, $rootScope, $stateParams, $state, BreadcrumbsService) {
         $scope.slug = $stateParams.slug;
         $scope.page = $stateParams.page;
 
-        $scope.loadPage = function (slug, page_num, source) {
-            if (slug == null)
-                slug = $scope.slug;
-            $log.info("Loading page " + slug + "|" + page_num + "/" + source);
-            $http.get("/api/forum/" + slug + "?page=" + page_num)
-                .then(function (response) {
-                    var addBreadcrumbs = $scope.data == null;
-                    $scope.data = response.data;
-                    $scope.current_page = page_num;
-                    if (addBreadcrumbs) {
-                        $rootScope.addForumBreadcrumbs($rootScope, $scope.data.forum);
-                    }
-                }, function (response) {
-                    $log.info("Error ?");
-                });
-        };
-        $scope.loadPage($scope.slug, $scope.page, 11);
+        // TODO: Refactor into a service
+        $http.get("/api/forum/" + $scope.slug + "?page=" + $scope.page)
+            .then(function (response) {
+                $scope.data = response.data;
+                BreadcrumbsService.addBreadcrumb({name: $scope.data.forum.title, type: "forum", slug: $scope.data.forum.slug});
+            }, function (response) {
+                $log.info("Error ?");
+            });
 
+        $scope.goToThread = function(thread){
+            $state.go("thread", {page: 1, slug: thread.slug, parentPage: $scope.page, parentSlug: $scope.slug});
+        };
+
+        $scope.loadPage = function (page_num, source) {
+            $state.go("forum", {page: page_num, slug: $scope.slug});
+        };
     }
 })();

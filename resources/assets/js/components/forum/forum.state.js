@@ -11,7 +11,12 @@
             params: {
                 page: {value: "1"}
             },
-            template: '<forum></forum>',
+            templateUrl: "/angular/forum",
+            controller: "ForumController",
+            ncyBreadcrumb: {
+                label: "{{data.forum.title}} ({{data.threads.current_page}})",
+                parent: "index"
+            }
         });
     }
 })();

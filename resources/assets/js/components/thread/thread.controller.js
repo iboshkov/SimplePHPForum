@@ -3,42 +3,29 @@
         .module('forums')
         .controller('ThreadController', ThreadController);
 
-    ThreadController.$inject = ["$scope", "$http", "$log", "$rootScope"];
+    ThreadController.$inject = ["$scope", "$http", "$log", "$rootScope", "$stateParams",
+        "$state", "BreadcrumbsService"];
 
-    function ThreadController($scope, $http, $log, $rootScope) {
-        $scope.current_page = 0;
-        $scope.numPages = 0;
-        $scope.init = function (slug, page) {
-            $scope.slug = slug;
-            $log.info("Pages: " + $scope.pageData);
-            $scope.loadPage(slug, page);
-        };
+    function ThreadController($scope, $http, $log, $rootScope, $stateParams, $state, BreadcrumbsService) {
+        $scope.slug = $stateParams.slug;
+        $scope.page = $stateParams.page;
+        $scope.parentPage = $stateParams.parentPage;
+        $scope.parentSlug = $stateParams.parentSlug;
+        console.log($scope.parentSlug);
 
-        $scope.$on("posts:updated", function (data) {
-            $log.info("Refreshing posts");
-            // Todo: get num pages before loading last page
-            $scope.loadPage(null, $scope.numPages);
-        });
+        // TODO: Refactor into a service
+        $http.get("/api/thread/" + $scope.slug + "?page=" + $scope.page)
+            .then(function (response) {
+                $scope.data = response.data;
+                $scope.parentSlug = $scope.data.thread.forum.slug;
+                BreadcrumbsService.addBreadcrumb({name: $scope.data.thread.forum.title, type: "forum", slug: $scope.data.thread.forum.slug});
+                BreadcrumbsService.addBreadcrumb({name: $scope.data.thread.title, type: "thread", slug: $scope.data.thread.slug});
+            }, function (response) {
+                $log.info("Error ?");
+            });
 
-        $scope.loadPage = function (slug, page_num) {
-            if (slug == null)
-                slug = $scope.slug;
-            $http.get("/api/thread/" + slug + "?page=" + page_num)
-                .then(function (response) {
-                    var addBreadcrumbs = $scope.data == null;
-                    $scope.data = response.data;
-                    $scope.numPages = Math.ceil($scope.data.posts.total / $scope.data.posts.per_page);
-                    $log.info("pages");
-                    $log.info($scope.data);
-                    if (addBreadcrumbs) {
-                        $rootScope.addForumBreadcrumbs($rootScope, $scope.data.thread.forum);
-                        $rootScope.breadcrumbPath.push({name: $scope.data.thread.title,
-                            url: "/thread/" + $scope.data.thread.slug});
-                    }
-                    $scope.current_page = page_num;
-                }, function (response) {
-                    $log.info("Error ?");
-                });
+        $scope.loadPage = function (page_num, source) {
+            $state.go("thread", {page: page_num, slug: $scope.slug});
         };
     }
 })();

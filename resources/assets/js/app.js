@@ -44,8 +44,18 @@ require('./bootstrap');
         $authProvider.storageType = 'localStorage';
     }]);
 
-    app.run(["$rootScope", "$http", "$log", "$auth", function ($rootScope, $http, $log, $auth) {
+    app.run(["$rootScope", "$http", "$log", "BreadcrumbsService",
+        function ($rootScope, $http, $log, BreadcrumbsService) {
         $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
+
+        $rootScope.$on('$locationChangeSuccess', function(evt) {
+            // Halt state change from even starting
+            evt.preventDefault();
+            BreadcrumbsService.resetBreadcrumbs();
+            console.log("LOcation change");
+
+        });
+
 
         $rootScope.addForumBreadcrumbs = function($rootScope, forumData) {
             if (forumData.parent) {

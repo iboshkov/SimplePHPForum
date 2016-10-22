@@ -5,7 +5,8 @@
             <div class="sub header">@{{ data.forum.description }}</div>
         </h2>
         Slug: @{{ slug }}
-        <pagination page-data="data.threads" callback="loadPage(slug, page)"></pagination>
+
+        <pagination page-data="data.threads" callback="loadPage(page)"></pagination>
 
         <div class="ui segments">
             <div class="ui inverted segment category-title">
@@ -20,7 +21,10 @@
                                     <div class="left floated" style="margin-right: 10px">
                                         <i class="huge comments outline icon"></i>
                                     </div>
-                                    <div class="header"><a href="/thread/@{{ thread.slug }}">@{{ thread.title }}</a>
+                                    <div class="header">
+                                        <a ng-click="goToThread(thread)">
+                                            @{{ thread.title }}
+                                        </a>
                                     </div>
                                     <div class="meta">
                                         <a href="#">@{{ thread.posted_by.username }}</a> <span

@@ -11,7 +11,10 @@
             {
                 name: 'test',
                 url: '/',
-                template: '<index></index>'
+                template: '<index></index>',
+                ncyBreadcrumb: {
+                    label: 'Home'
+                },
             });
     }
 })();

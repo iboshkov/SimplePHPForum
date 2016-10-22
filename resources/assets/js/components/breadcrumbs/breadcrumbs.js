@@ -1,4 +1,5 @@
 (function () {
+    require("./breadcrumbs.factory");
     require("./breadcrumbs.controller");
-    require("./breadcrumbs.directive");
+    require("./breadcrumbs.component");
 })();

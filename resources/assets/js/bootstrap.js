@@ -25,6 +25,7 @@ require("../../../bower_components/ckeditor/config");
 require("../../../bower_components/ckeditor/lang/en");
 require("../../../bower_components/ckeditor/styles");
 require("../../../bower_components/angular-ckeditor/angular-ckeditor");
+require("../../../bower_components/angular-breadcrumb/release/angular-breadcrumb.min");
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
