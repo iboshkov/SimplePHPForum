@@ -1,10 +1,10 @@
 <div ng-cloak class="ui main container">
-    <div ng-controller="ForumController" {{-- ng-init="init('{{$slug}}', {{$page}})" --}} class="">
+    <div {{-- ng-controller="ForumController" --}} {{-- ng-init="init('{{$slug}}', {{$page}})" --}} class="">
         <h2 class="ui header">
             @{{ data.forum.title  }}
             <div class="sub header">@{{ data.forum.description }}</div>
         </h2>
-
+        Slug: @{{ slug }}
         <pagination page-data="data.threads" callback="loadPage(slug, page)"></pagination>
 
         <div class="ui segments">
