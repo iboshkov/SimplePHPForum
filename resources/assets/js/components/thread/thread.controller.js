@@ -10,7 +10,7 @@
     $anchorScroll, $location) {
         $scope.slug = $stateParams.slug;
         $scope.page = $stateParams.page;
-        $scope.scrollToLast = $stateParams.scrollToLast;
+        $scope.scrollToLast = $stateParams.scrollToLast == "true";
 
         $scope.loadPage = function(page) {
             console.log($stateParams);
@@ -32,8 +32,5 @@
         }
 
         $scope.loadPage($scope.page);
-        //$scope.loadPage = function (page_num, source) {
-        //    $state.go("thread", {page: page_num, slug: $scope.slug, scrollToLast: false});
-        //};
     }
 })();
