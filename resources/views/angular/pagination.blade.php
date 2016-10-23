@@ -27,7 +27,7 @@
             @{{maxPages}}
         </pagination-entry>
     </div>
-    <div ng-if="pageData.current_page < 5" class="ui mini secondary menu" ng-repeat="n in [] | range: roundStart : 6">
+    <div ng-if="pageData.current_page < 5" class="ui mini secondary menu" ng-repeat="n in [] | range: 0 : 6">
       <pagination-entry active="@{{ pageData.current_page == n+1 }}" class=""
                         data-ng-click="callback({page: n+1})">
           @{{n+1}}
@@ -42,7 +42,6 @@
 </div>
 <div ng-if="maxPages < 5" class="ui mini pagination pointing menu">
     <div class="header item">Page @{{ pageData.current_page }} of @{{ maxPages }}</div>
-
     <div ng-repeat="n in [] | range: 0 : maxPages">
         <pagination-entry active="@{{ pageData.current_page == n+1 }}" class=""
                           data-ng-click="callback({page: n+1})">
