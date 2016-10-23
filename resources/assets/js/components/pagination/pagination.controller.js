@@ -19,9 +19,6 @@
                 console.log('New max pages:', $scope.maxPages);
                 $scope.roundStart = Math.clamp(newValue.current_page - 3, 0, $scope.maxPages);
                 $scope.roundEnd = Math.clamp(newValue.current_page + 2, 0, $scope.maxPages);
-                if(!$scope.$digest) {
-                    $scope.$apply();
-                }
             }
         }, true);
     }
