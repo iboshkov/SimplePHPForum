@@ -7,7 +7,7 @@
 
     function registerState($stateProvider) {
         $stateProvider.state('thread', {
-            url: '/forum/{parentSlug}/{parentPage}/{slug}/{page}/?scrollToLast',
+            url: '/forum/{slug}/{page}/?scrollToLast',
             params: {
                 page: {value: "1"},
                 parentSlug: {value: "---"},

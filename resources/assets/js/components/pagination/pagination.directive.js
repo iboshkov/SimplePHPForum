@@ -8,10 +8,6 @@
     function PaginationDirective() {
         return {
             restrict: "E",
-            scope: {
-                pageData: '=',
-                callback: '&',
-            },
             controller: "PaginationController",
             /*link: function (scope, element, attrs) {
                 scope.Math = window.Math;
