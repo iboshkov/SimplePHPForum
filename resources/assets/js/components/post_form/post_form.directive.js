@@ -13,7 +13,6 @@
             },
             link: function($scope, $element, $attrs) {
                 $scope.thread = $attrs.data;
-                $scope.$root.scrollToPostArea();
             },
             templateUrl: "/angular/post_form",
         };

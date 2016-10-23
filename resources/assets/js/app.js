@@ -48,7 +48,7 @@ require('./bootstrap');
     }]);
 
     app.run(["$rootScope", "$http", "$log", "BreadcrumbsService", "UserService",
-        function ($rootScope, $http, $log, BreadcrumbsService, UserService) {
+        function($rootScope, $http, $log, BreadcrumbsService, UserService) {
             $rootScope.breadcrumbPath = [{name: "Home", url: "/"}];
 
             $rootScope.$on('$stateChangeSuccess', function (evt) {
@@ -76,6 +76,7 @@ require('./bootstrap');
             };
 
             $rootScope.scrollToElement = function (element) {
+                console.log("Scrolling to element");
                 $('html, body').animate({
                     scrollTop: $(element).offset().top
                 }, 200);

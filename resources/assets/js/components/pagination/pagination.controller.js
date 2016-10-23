@@ -1,4 +1,4 @@
-(function () {
+(function() {
     console.log("Pagination controller");
     angular
         .module('forums')
@@ -12,7 +12,13 @@
         $scope.roundEnd = 0;
         $scope.Math = window.Math;
 
-        $scope.$watch('pageData', function (newValue, oldValue) {
+        $('.header.item')
+            .popup({
+                on: 'click',
+                popup: '.special.popup'
+            });
+
+        $scope.$watch('pageData', function(newValue, oldValue) {
             console.log('pageData change:', newValue);
             if (newValue) {
                 $scope.maxPages = Math.ceil(newValue.total / newValue.per_page);

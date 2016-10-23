@@ -9,7 +9,11 @@
         return {
             restrict: "A",
             link: function($scope, $element, $attrs) {
-
+                $attrs.$observe('scrollIf', function(newValue, oldValue) {
+                    console.log('scroll change:', newValue);
+                    if (newValue) {
+                    }
+                }, true);
                 function inner() {
                     var element = $attrs.id;
                     if ($attrs.scrollIf != "true"){
